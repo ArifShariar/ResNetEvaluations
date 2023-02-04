@@ -1,7 +1,4 @@
-import os.path
-
 import cv2
-import imageio.v2 as imageio
 
 
 def clahe_opencv(image, clip_limit, tile_grid_size):
