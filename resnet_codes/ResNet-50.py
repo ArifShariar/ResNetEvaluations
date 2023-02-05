@@ -1,32 +1,22 @@
 # import modules and packages to implement the code
 import matplotlib.pyplot as plt
 import seaborn as sns
-from PIL import Image
 
 sns.set()
-import numpy as np  # linear algebra
-# data processing, CSV file I/O (e.g. pd.read_csv)
 import tensorflow as tf
 from tensorflow import keras
-import PIL.Image
-import matplotlib.pyplot as mpimg
 import os
-# from tensorflow.keras.preprocessing import image
 
-from tqdm import tqdm
 import warnings
 
 warnings.filterwarnings("ignore")
-import pathlib
-
-# import sklearn
 
 
 classes = ['NORMAL', 'COVID-19']
 # load the images from the directory ../data/non-enhanced
 non_enhanced = os.listdir('../data/enhanced')
 
-# definf parameter for resnet50
+# define parameter for resnet50
 IMG_SIZE = 224
 BATCH_SIZE = 32
 EPOCHS = 10
@@ -39,7 +29,6 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE)
 
-
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     '../data/enhanced',
     validation_split=0.2,
@@ -50,7 +39,6 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 
 class_names = train_ds.class_names
 print(class_names)
-
 
 # configure the dataset for performance
 AUTOTUNE = tf.data.AUTOTUNE

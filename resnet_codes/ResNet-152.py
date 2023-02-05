@@ -66,7 +66,7 @@ data_augmentation = keras.Sequential(
 )
 
 # load the resnet50 model
-resnet50 = tf.keras.applications.ResNet101(
+resnet50 = tf.keras.applications.ResNet152(
     include_top=False,
     weights="imagenet",
     input_shape=(IMG_SIZE, IMG_SIZE, 3),
@@ -109,4 +109,3 @@ plt.show()
 test_loss, test_acc = model.evaluate(val_ds, verbose=2)
 
 print(test_acc)
-
