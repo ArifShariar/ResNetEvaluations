@@ -1,0 +1,1 @@
+Time Taken for Resnet 101: 1063.3509645462036

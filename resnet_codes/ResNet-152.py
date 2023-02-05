@@ -1,8 +1,10 @@
 # import modules and packages to implement the code
+import time
+
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
-sns.set()
 # data processing, CSV file I/O (e.g. pd.read_csv)
 import tensorflow as tf
 from tensorflow import keras
@@ -10,7 +12,7 @@ import os
 # from tensorflow.keras.preprocessing import image
 
 import warnings
-
+sns.set()
 warnings.filterwarnings("ignore")
 
 # import sklearn
@@ -92,11 +94,20 @@ model.compile(
 )
 
 # train the model
+start = time.time()
 history = model.fit(
     train_ds,
     validation_data=val_ds,
     epochs=EPOCHS
 )
+end = time.time()
+
+# save time in text file in benchmark folder
+with open("../benchmark/resnet-152-time.txt", "w") as f:
+    f.write("Time Taken for Resnet 152: " + str(end - start))
+
+# save history in csv file
+pd.DataFrame(history.history).to_csv("../benchmark/resnet-152-history.csv")
 
 # plot the accuracy and loss
 plt.plot(history.history['accuracy'], label='accuracy')
@@ -105,7 +116,9 @@ plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.ylim([0.5, 1])
 plt.legend(loc='lower right')
+plt.savefig('../benchmark/resnet-152-accuracy.png')
 plt.show()
+
 test_loss, test_acc = model.evaluate(val_ds, verbose=2)
 
 print(test_acc)

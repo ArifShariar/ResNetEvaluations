@@ -2,15 +2,15 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-sns.set()
 import tensorflow as tf
 from tensorflow import keras
 import os
-
+import pandas as pd
+import time
 import warnings
 
+sns.set()
 warnings.filterwarnings("ignore")
-
 
 classes = ['NORMAL', 'COVID-19']
 # load the images from the directory ../data/non-enhanced
@@ -88,11 +88,20 @@ model.compile(
 )
 
 # train the model
+start = time.time()
 history = model.fit(
     train_ds,
     validation_data=val_ds,
     epochs=EPOCHS
 )
+end = time.time()
+
+# save time in text file in benchmark folder
+with open("../benchmark/resnet-50-time.txt", "w") as f:
+    f.write("Time Taken for Resnet 50: " + str(end - start))
+# store history in a csv file in the folder benchmark
+
+pd.DataFrame(history.history).to_csv("../benchmark/resnet-50-history.csv")
 
 # plot the accuracy and loss
 plt.plot(history.history['accuracy'], label='accuracy')
@@ -101,7 +110,9 @@ plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.ylim([0.5, 1])
 plt.legend(loc='lower right')
+plt.savefig('../benchmark/resnet-50-accuracy.png')
 plt.show()
+
 test_loss, test_acc = model.evaluate(val_ds, verbose=2)
 
 print(test_acc)
