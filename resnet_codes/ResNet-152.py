@@ -25,10 +25,10 @@ non_enhanced = os.listdir('../data/enhanced')
 # define parameter for resnet50
 IMG_SIZE = 224
 BATCH_SIZE = 32
-EPOCHS = 10
+EPOCHS = 20
 
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-    '../data/enhanced',
+    '../data/non-enhanced',
     validation_split=0.2,
     subset="training",
     seed=123,
@@ -36,7 +36,7 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     batch_size=BATCH_SIZE)
 
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
-    '../data/enhanced',
+    '../data/non-enhanced',
     validation_split=0.2,
     subset="validation",
     seed=123,
@@ -103,11 +103,11 @@ history = model.fit(
 end = time.time()
 
 # save time in text file in benchmark folder
-with open("../benchmark/resnet-152-time.txt", "w") as f:
+with open("../benchmark/resnet-152-epoch-{}-time-non-enhanced.txt".format(EPOCHS), "w") as f:
     f.write("Time Taken for Resnet 152: " + str(end - start))
 
 # save history in csv file
-pd.DataFrame(history.history).to_csv("../benchmark/resnet-152-history.csv")
+pd.DataFrame(history.history).to_csv("../benchmark/resnet-152-epoch-{}-history-non-enhanced.csv".format(EPOCHS))
 
 # plot the accuracy and loss
 plt.plot(history.history['accuracy'], label='accuracy')
@@ -116,7 +116,7 @@ plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.ylim([0.5, 1])
 plt.legend(loc='lower right')
-plt.savefig('../benchmark/resnet-152-accuracy.png')
+plt.savefig('../benchmark/resnet-152-epoch-{}-accuracy-non-enhanced.png'.format(EPOCHS))
 plt.show()
 
 test_loss, test_acc = model.evaluate(val_ds, verbose=2)

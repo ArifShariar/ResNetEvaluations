@@ -1,0 +1,1 @@
+Time Taken for Resnet 50: 12388.419599294662
