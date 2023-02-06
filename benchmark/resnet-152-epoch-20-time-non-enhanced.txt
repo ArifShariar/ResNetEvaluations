@@ -1,0 +1,1 @@
+Time Taken for Resnet 152: 4694.686089515686
